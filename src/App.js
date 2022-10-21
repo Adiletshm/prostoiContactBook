@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddContact from "./Components/AddContact/AddContacts";
 import ContactsList from "./Components/ContactsList/ContactsList";
 import EditContacts from "./Components/EditContacts/Editcontact";
@@ -35,6 +35,21 @@ const App = () => {
     setContacts(newContactsArray);
     setIsEdit(false);
   }
+  // ! local storage
+  useEffect(() => {
+    if (localStorage.getItem("contacts") === null) {
+      localStorage.setItem("contacts", JSON.stringify([]));
+    } else {
+      let data = localStorage.getItem("contacts");
+      setContacts(JSON.parse(data));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+  }, [contacts]);
+  // ! local storage
+
   return (
     <div className="App">
       <AddContact handleNewContact={handleNewContact} />
